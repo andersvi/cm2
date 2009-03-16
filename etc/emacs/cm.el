@@ -131,7 +131,7 @@
 	   (add-hook 'slime-connected-hook 'cm-start-hook)
 	   (slime-start :program (first parsed) :program-args (rest parsed)
 			:init 'cm-init-command
-;			:buffer " *inferior-lisp*"
+			:buffer " *inferior-lisp*"
 			)
 	   (claim-scratch-buffer)))))
 
