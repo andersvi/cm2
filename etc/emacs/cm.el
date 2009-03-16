@@ -86,7 +86,8 @@
 ;; itself so that it doesnt interfere with other slime sessions.
 
 (defun cm-start-hook ()
-  (slime-repl-send-string "(cm)")
+  ;;(slime-repl-send-string "(cm)")
+  (slime-interactive-eval "(cm)")
   (remove-hook 'slime-connected-hook 'cm-start-hook)
   ;; aquamacs: hide inferior lisp buffer if visible after slime buffer
   ;; starts. This happens if user re-mouses original frame after doing
@@ -130,10 +131,9 @@
 	   (add-hook 'slime-connected-hook 'cm-start-hook)
 	   (slime-start :program (first parsed) :program-args (rest parsed)
 			:init 'cm-init-command
-			:buffer " *inferior-lisp*")
+;			:buffer " *inferior-lisp*"
+			)
 	   (claim-scratch-buffer)))))
-
-
 
 (defun kill-cm ()
   "Kill *slime-repl* and all associated buffers."
