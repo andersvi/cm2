@@ -284,7 +284,7 @@
 ;;;   minor:       backwards-compatible API change, i.e. "feature-add"
 ;;;   maintenance: no API change, bug fix only.
 
-(define %cm-version% #x2B3)
+(define %cm-version% #x020C00)
 
 (define (cm-version-number . arg)
   ;; return raw 3 byte version number or version list
@@ -293,9 +293,9 @@
 
 (define (cm-version-name)
   (format #f "~a.~a.~a" 
-          (ldb (byte 4 8) %cm-version%)
-          (ldb (byte 4 4) %cm-version%)
-          (ldb (byte 4 0) %cm-version%)))
+          (ldb (byte 8 16) %cm-version%)
+          (ldb (byte 8 8) %cm-version%)
+          (ldb (byte 8 0) %cm-version%)))
 
 (define (cm-version . fmat)
   (cond ((null? fmat)
@@ -307,9 +307,9 @@
 	((eq? (car fmat) ':string)
 	 (cm-version-name))
 	((eq? (car fmat) ':list)
-	 (list (ldb (byte 4 8) %cm-version%)
-	       (ldb (byte 4 4) %cm-version%)
-	       (ldb (byte 4 0) %cm-version%)))
+	 (list (ldb (byte 8 16) %cm-version%)
+	       (ldb (byte 8 8) %cm-version%)
+	       (ldb (byte 8 0) %cm-version%)))
 	(else (err "cm-version: Bad format: ~s." (car fmat)))))
 
 ;;;
