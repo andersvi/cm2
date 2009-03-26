@@ -349,15 +349,24 @@
 				 (f cm-source-file))
   (format t "; Compiling ~A.~A~%"
 	  (pathname-name (asdf:component-pathname f))
-	  (pathname-type (asdf:component-pathname f))))
+	  (pathname-type (asdf:component-pathname f)))
+  (force-output *standard-output*)
+  (force-output *error-output*)
+  )
 
 (defmethod asdf:perform :before ((op asdf:load-op) (f cm-source-file))
   (let ((c (compile-file-pathname (asdf:component-pathname f))))
-    (format t "; Loading ~A.~A~%" (pathname-name c) (pathname-type c))))
+    (format t "; Loading ~A.~A~%" (pathname-name c) (pathname-type c)))
+  (force-output *standard-output*)
+  (force-output *error-output*)
+  )
 
 (defmethod asdf:perform :after ((op asdf:load-op) (f cm-source-file))
   (if (slot-value f 'after)
-      (funcall (slot-value f 'after) f)))
+      (funcall (slot-value f 'after) f))
+  (force-output *standard-output*)
+  (force-output *error-output*)
+  )
 
 ;;;
 ;;; system definition
