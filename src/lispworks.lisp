@@ -33,10 +33,10 @@
 ;; classes RANDOM and FUNCALL. THere must be a better way to do
 ;; this...
 
-(defun random (ub &optional (state *random-state*))
-  (cl:random ub state))
+;; (defun random (ub &optional (state *random-state*))
+;;   (cl:random ub state))
 
-(defun funcall (fn &rest args) (apply #'cl:funcall fn args))
+;; (defun funcall (fn &rest args) (apply #'cl:funcall fn args))
 
 (defun finalize-class (class) class (values))
 

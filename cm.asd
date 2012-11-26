@@ -16,7 +16,7 @@
 (error "Sorry, Common Music does not run in this Lisp.")
 
 (require :asdf
-         #-(or sbcl openmcl ecl)
+         #-(or sbcl openmcl ecl lispworks)
          (make-pathname :name "asdf" :type "lisp"
                         :directory (append (pathname-directory
 					    *load-pathname*)
