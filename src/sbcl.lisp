@@ -88,8 +88,9 @@
 
 #-win32
 (defun shell (cmd &key (wait t) (output t))
-  (sb-ext:run-program "/bin/csh" (list "-fc" cmd)
+  (sb-ext:run-program "/bin/sh" (list "-c" cmd)
                       :output output :wait wait))
+
 #+win32
 (defun shell (cmd &key (wait t) (output t))
   ;; Unfortunately there is no Shell in sbcl windows.
