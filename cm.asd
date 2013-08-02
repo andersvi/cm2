@@ -61,9 +61,11 @@
         (stdout
          (ext:process-output
           (ext:run-program (cm.sh) '("-q") :output :stream))))
-    #+(and lispworks (not win32))
+    #+(and lispworks lispworks-32bit  (not win32))
     (stdout
      (sys:run-shell-command (cm.sh "-q") :wait nil :output :stream))
+    #+(and lispworks-32bit (not win32))
+    "linux-i686_32"
     #+openmcl
     (or (ccl::getenv "CM_PLATFORM")
         (stdout
@@ -113,7 +115,7 @@
   #+cmu (eq :directory (unix:unix-file-kind (namestring dir)))
   #+ecl (eq ':directory (si::file-kind (pathname dir) nil))
   #+lispworks (lw:file-directory-p dir)
-  #+sbcl (eq :directory (sb-unix:unix-file-kind (namestring dir)))
+  #+sbcl (eq :directory (sb-impl::native-file-kind dir))
   #-(or allegro clisp cmu lispworks sbcl ecl)
   (probe-file (make-pathname :directory dir)))
 
