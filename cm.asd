@@ -61,7 +61,7 @@
         (stdout
          (ext:process-output
           (ext:run-program (cm.sh) '("-q") :output :stream))))
-    #+(and lispworks lispworks-32bit  (not win32))
+    #+(and lispworks (not win32))
     (stdout
      (sys:run-shell-command (cm.sh "-q") :wait nil :output :stream))
     #+(and lispworks-32bit (not win32))
@@ -115,7 +115,9 @@
   #+cmu (eq :directory (unix:unix-file-kind (namestring dir)))
   #+ecl (eq ':directory (si::file-kind (pathname dir) nil))
   #+lispworks (lw:file-directory-p dir)
-  #+sbcl (eq :directory (sb-impl::native-file-kind dir))
+  #+sbcl (eq :directory (funcall (or (find-symbol "NATIVE-FILE-KIND" :sb-impl)
+                                     (find-symbol "UNIX-FILE-KIND" :sb-unix))
+                                 (namestring dir)))
   #-(or allegro clisp cmu lispworks sbcl ecl)
   (probe-file (make-pathname :directory dir)))
 
@@ -123,10 +125,12 @@
   ;;create dir cribbed from file utils by sam steingold
   #+allegro (excl:make-directory dir)
   #+clisp (#+lisp=cl ext:make-dir #-lisp=cl lisp:make-dir dir)
-  #+cmu (unix:unix-mkdir (namestring dir) #o777)
+;;  #+cmu (unix:unix-mkdir (namestring dir) #o777 )
+  #+cmu (unix:unix-mkdir (namestring dir) 511)
   #+ecl (si::ensure-directories-exist dir)
   #+lispworks (system:make-directory dir)
-  #+sbcl (sb-unix:unix-mkdir (namestring dir) #o777)
+;;  #+sbcl (sb-unix:unix-mkdir (namestring dir) #o777)
+  #+sbcl (sb-unix:unix-mkdir (namestring dir) 511)
   #+openmcl (ccl:create-directory dir)
   )
 
@@ -374,8 +378,8 @@
 ;;; system definition
 ;;;
 
-(asdf:defsystem :cm
-    :description "Common Music"
+(asdf:defsystem :cm2
+    :description "Common Music (v.2)"
     :class cm-application
     :version "2.11.1"
     :author "Rick Taube <taube (at) uiuc.edu>"
@@ -383,7 +387,7 @@
     :components
     ((:module "src"
               :default-component-class cm-source-file
-;	      :serial t
+	      :serial t
               :components (
 			   (:file "pkg" )
                            #+allegro (:file "acl" :depends-on ("pkg"))
