@@ -603,4 +603,4 @@
 (export '(cm use-system) :cl-user)
 
 ;; (load "/Lisp/cm/cm.asd")
-;; (asdf:operate 'asdf:load-op :cm)
+;; (asdf:operate 'asdf:load-op :cm2)

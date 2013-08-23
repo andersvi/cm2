@@ -5,7 +5,7 @@
                 :directory (butlast (pathname-directory *load-pathname*))
                 :defaults *load-pathname*))
 
-(use-system :cm)
+(use-system :cm2)
 
 ;;; add other use-systems here to autoload them at startup. see
 ;;; cm/doc/install.html for more information.
